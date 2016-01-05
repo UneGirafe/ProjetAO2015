@@ -71,7 +71,7 @@ public class DocumentWidget extends Observable {
 		widget.add(saver);
 
 		//Loader
-		loader = new JButton("Importer à partir d'un fichier");
+		loader = new JButton("Importer a partir d'un fichier");
 		loader.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -127,7 +127,7 @@ public class DocumentWidget extends Observable {
 				cbFunctions.addItem(txt);
 				cbFunctions.repaint();
 			}else {
-				System.out.println("Cette fonction existe déjà, ajout impossible.");
+				System.out.println("Cette fonction existe deja, ajout impossible.");
 			}
 		} catch (SyntaxErrorException | IOException e) {
 			System.out.println(e.getMessage());
@@ -137,12 +137,12 @@ public class DocumentWidget extends Observable {
 
 	public void load(File f){
 		try (BufferedReader reader = new BufferedReader( new FileReader(f))) {//try-with-ressources
-								    											//libère la ressource dès que la vaiable n'est plus utilisée
+								    											//libere la ressource des que la vaiable n'est plus utilisee
 			String line;
 			while ((line = reader.readLine()) != null ){ //second test ne fonctionne pas
 				//applyFunction(line);
 				if (functionsList.containsValue(line)){
-					System.out.println("ligne rejetée car déjà importée" + line );
+					System.out.println("ligne rejetee car deja importee" + line );
 				} else {
 					addFunction(line);
 				}
@@ -151,7 +151,7 @@ public class DocumentWidget extends Observable {
 			for (String i : this.functionsList.keySet() ){
 				String key = i.toString();
 				String value = this.functionsList.get(key).toString();
-				System.out.println("clé : " + key + " || valeur : " + value);
+				System.out.println("cle : " + key + " || valeur : " + value);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -161,7 +161,7 @@ public class DocumentWidget extends Observable {
 
 	public void save(File f){
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(f,true))){
-			//Functions.parse(functionField.getText()); //récupère la fonction dans le champ texte et vérifie la syntaxe
+			//Functions.parse(functionField.getText()); //recupere la fonction dans le champ texte et verifie la syntaxe
 			f.createNewFile();
 
 			for (String i : this.functionsList.keySet()){
