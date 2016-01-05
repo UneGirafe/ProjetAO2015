@@ -14,11 +14,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import function.Function;
 import function.Functions;
@@ -33,18 +40,45 @@ public class DocumentWidget extends Observable {
 	private JButton addButton;
 	private JFileChooser fileChooser;
 	private JComboBox<String> cbFunctions;
+	private JList availableFunctionsList;
+	private JList drawnFunctionsList;
 	private Map<String,Function> functionsList;
 
 
 	public DocumentWidget(){
 		widget = new JPanel();
+		DefaultListModel availableFun = new DefaultListModel();
+		DefaultListModel drawnFun = new DefaultListModel();
+		availableFunctionsList = new JList(availableFun);
+		drawnFunctionsList = new JList(drawnFun);
 		cbFunctions = new JComboBox<>();
 		fileChooser = new JFileChooser();
 		functionField = new JTextField(3);
 		widget.add(functionField);
-		functionsList = new HashMap<String, Function>();
+		//functionsList = new HashMap<String, Function>();
 		
-		//Combo box
+		
+		//Available function's list
+		dlm.addElement("un");
+		availableFunctionsList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+			    if (e.getValueIsAdjusting() == false) {
+
+			        if (availableFunctionsList.getSelectedIndex() == -1) {
+			        //No selection, disable add button.
+			            addButton.setEnabled(false);
+			        } else {
+			        //Selection, enable the add button.
+			            addButton.setEnabled(true);
+			        }
+			    }
+				
+			}
+		});
+		widget.add(availableFunctionsList);
+		
+/*		//Combo box
 		cbFunctions = new JComboBox<String>();
 		cbFunctions.addItemListener(new ItemListener() {
 			@Override
@@ -56,7 +90,7 @@ public class DocumentWidget extends Observable {
 			}
 		});
 
-		widget.add(cbFunctions);
+		widget.add(cbFunctions);*/
 
 		//Saver
 		saver = new JButton("Sauvegarder");
