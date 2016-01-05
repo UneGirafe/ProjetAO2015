@@ -46,7 +46,7 @@ class CurveControls extends JPanel {
 		zoom.addObserver((Observer) var);
 		document = new DocumentWidget();
 		
-		((Observable) var).addObserver(f); //permet à la fonction de notifier le tracer
+		((Observable) var).addObserver(f); //permet a la fonction de notifier le tracer
 		document.addObserver(f);
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -77,11 +77,11 @@ class CurveControls extends JPanel {
 	
 	public void readFile(File f){
 		try (BufferedReader reader = new BufferedReader( new FileReader(f))) {//try-with-ressources
-																			  //libère la ressource dès que la vaiable n'est plus utilisée
+																			  //libere la ressource des que la vaiable n'est plus utilisee
 			String line;
 			while ((line = reader.readLine()) != null){
 				System.out.println("ligne lue : " + line);
-				/*comparaison avec fonctions déjà dans le conteneur 
+				/*comparaison avec fonctions deja dans le conteneur 
 				 * if (line == conteneur.getXXX(line) */
 				Functions.parse(line);
 				/* conteneur.add(line);*/
@@ -98,7 +98,7 @@ class CurveControls extends JPanel {
 	public void writeFile(File f, JTextField functionField){
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(f,true))){
 			
-			Functions.parse(functionField.getText()); //récupère la fonction dans le champ texte et vérifie la syntaxe
+			Functions.parse(functionField.getText()); //recupere la fonction dans le champ texte et verifie la syntaxe
 			f.createNewFile();
 
 			writer.write(functionField.getText());
