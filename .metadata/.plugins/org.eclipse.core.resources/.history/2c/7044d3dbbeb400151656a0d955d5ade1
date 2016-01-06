@@ -270,7 +270,7 @@ public class DocumentWidget extends Observable {
 		// PAINT the CURVE ON THE GRAPH !
 		
 		setChanged();
-		notifyObservers(functionsList.get(func));//send a Function to remove
+		notifyObservers(this);
 		
 		//add to drawn list
 		drawnFun.addElement(func);
@@ -285,7 +285,7 @@ public class DocumentWidget extends Observable {
 		
 		// REMOVE the CURVE FROM THE GRAPH !
 		setChanged();
-		notifyObservers(functionsList.get(func)); //send a Function to remove
+		notifyObservers(functionsList.get(func)); //send a Function
 		
 		//add to available list
 		availableFun.addElement(func);

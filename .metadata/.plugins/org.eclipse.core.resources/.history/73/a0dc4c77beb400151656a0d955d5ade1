@@ -103,6 +103,21 @@ public class DocumentWidget extends Observable {
 			}
 		});
 
+
+		/*		//Combo box
+		cbFunctions = new JComboBox<String>();
+		cbFunctions.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED){
+					String item = e.getItem().toString();
+					applyFunction(item);
+				}
+			}
+		});
+
+		widget.add(cbFunctions);*/
+
 		//Saver
 		saver = new JButton("Sauvegarder");
 		saver.addMouseListener(new MouseAdapter() {
@@ -270,7 +285,7 @@ public class DocumentWidget extends Observable {
 		// PAINT the CURVE ON THE GRAPH !
 		
 		setChanged();
-		notifyObservers(functionsList.get(func));//send a Function to remove
+		notifyObservers(this);
 		
 		//add to drawn list
 		drawnFun.addElement(func);
@@ -282,10 +297,10 @@ public class DocumentWidget extends Observable {
 		//remove the entry from the drawned list
 		drawnFun.removeElement(func);
 		drawnFunctionsList.updateUI();
-		
+
 		// REMOVE the CURVE FROM THE GRAPH !
 		setChanged();
-		notifyObservers(functionsList.get(func)); //send a Function to remove
+		notifyObservers(Functions.parse((String) arg););
 		
 		//add to available list
 		availableFun.addElement(func);

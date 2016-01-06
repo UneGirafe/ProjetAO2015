@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import function.FunVariations;
 import function.Function;
 import function.Functions;
 import function.SyntaxErrorException;
@@ -102,6 +103,21 @@ public class DocumentWidget extends Observable {
 
 			}
 		});
+
+
+		/*		//Combo box
+		cbFunctions = new JComboBox<String>();
+		cbFunctions.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED){
+					String item = e.getItem().toString();
+					applyFunction(item);
+				}
+			}
+		});
+
+		widget.add(cbFunctions);*/
 
 		//Saver
 		saver = new JButton("Sauvegarder");
@@ -270,7 +286,7 @@ public class DocumentWidget extends Observable {
 		// PAINT the CURVE ON THE GRAPH !
 		
 		setChanged();
-		notifyObservers(functionsList.get(func));//send a Function to remove
+		notifyObservers(this);
 		
 		//add to drawn list
 		drawnFun.addElement(func);
@@ -285,7 +301,7 @@ public class DocumentWidget extends Observable {
 		
 		// REMOVE the CURVE FROM THE GRAPH !
 		setChanged();
-		notifyObservers(functionsList.get(func)); //send a Function to remove
+		notifyObservers(functionsList.get(func));
 		
 		//add to available list
 		availableFun.addElement(func);

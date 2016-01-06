@@ -4,16 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import function.FunVariations;
-import function.Function;
-import function.Functions;
 
 /**
  * A class  to represent the variations of some function  in some interval.
@@ -32,7 +27,6 @@ public class CurveFrame extends JFrame  implements Observer {
 	/** the graphic part of the display */
 	CurveTracer tracer;
 
-	List<CurveTracer> tracers;
 	/** information bar */
 	CurveInfos infos;
 
@@ -99,13 +93,10 @@ public class CurveFrame extends JFrame  implements Observer {
 
 		if(o instanceof DocumentWidget){
 		System.out.print("Mise à jour Curve Frame ");
-		FunctionVariations newFvar = new FunVariations((Function) arg, -10, 10);
-/*		DocumentWidget dw = (DocumentWidget) arg ;
+		DocumentWidget dw = (DocumentWidget) arg ;
 		
-		tracers.add();
-		dw.getDrawnFunctions();*/
-		repaint();
-		}
+		dw.getDrawnFunctions();
+		repaint();}
 
 		if (o instanceof Variations){
 			infos.update();

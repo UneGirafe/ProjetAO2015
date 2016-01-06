@@ -11,10 +11,6 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import function.FunVariations;
-import function.Function;
-import function.Functions;
-
 /**
  * A class  to represent the variations of some function  in some interval.
  * Allows some control on the accuracy of this representation
@@ -99,11 +95,9 @@ public class CurveFrame extends JFrame  implements Observer {
 
 		if(o instanceof DocumentWidget){
 		System.out.print("Mise à jour Curve Frame ");
-		FunctionVariations newFvar = new FunVariations((Function) arg, -10, 10);
-/*		DocumentWidget dw = (DocumentWidget) arg ;
+		DocumentWidget dw = (DocumentWidget) arg ;
 		
-		tracers.add();
-		dw.getDrawnFunctions();*/
+		dw.getDrawnFunctions();
 		repaint();
 		}
 
