@@ -215,7 +215,7 @@ public class DocumentWidget extends Observable {
 
 	public void createFunction(String txt) {
 		try {
-			System.out.println("ligne à ajouter : " + txt);
+			System.out.println("ligne a ajouter : " + txt);
 			Function fun;
 			fun = Functions.parse(txt); //convert String to Function
 			//If function does not exist --> add it
@@ -242,10 +242,12 @@ public class DocumentWidget extends Observable {
 
 		// PAINT the CURVE ON THE GRAPH !
 		//TO BE IMPLEMENTED
+		notifyObservers();
+		setChanged();
 		
 		//add to drawn list
 		drawnFun.addElement(func);
-		System.out.println(func + " dessinée");
+		System.out.println(func + " dessinee");
 	}
 
 	public void drawnToAvailable(String func){
