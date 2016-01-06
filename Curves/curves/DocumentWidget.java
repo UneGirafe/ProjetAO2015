@@ -179,7 +179,7 @@ public class DocumentWidget extends Observable {
 
 		c.gridx = 1;
 		
-		widget.add(drawnFunctionsList, c); // Ajout affichage fonctions dessinées
+		widget.add(drawnFunctionsList, c); // Ajout affichage fonctions dessinees
 
 		// Troisieme ligne
 		
@@ -201,7 +201,7 @@ public class DocumentWidget extends Observable {
 
 		widget.add(functionField, c); // Ajout champs de saisie pour une nouvelle fonction
 
-		// Cinquieùe ligne
+		// Cinquieme ligne
 		
 		c.gridy = 4;
 		c.gridwidth = 2;
@@ -242,7 +242,7 @@ public class DocumentWidget extends Observable {
 
 	public void createFunction(String txt) {
 		try {
-			System.out.println("ligne à ajouter : " + txt);
+			System.out.println("ligne a ajouter : " + txt);
 			Function fun;
 			fun = Functions.parse(txt); //convert String to Function
 			//If function does not exist --> add it
@@ -274,7 +274,7 @@ public class DocumentWidget extends Observable {
 		
 		//add to drawn list
 		drawnFun.addElement(func);
-		System.out.println(func + " dessinée");
+		System.out.println(func + " dessinee");
 	}
 
 
