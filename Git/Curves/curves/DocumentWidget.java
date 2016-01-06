@@ -233,6 +233,7 @@ public class DocumentWidget extends Observable {
 		
 		c.gridx = 0;
 		c.gridy = 5;
+		c.gridwidth = 1;
 		
 		widget.add(saver, c); // Ajout bouton de sauvegarde dans un fichier
 
