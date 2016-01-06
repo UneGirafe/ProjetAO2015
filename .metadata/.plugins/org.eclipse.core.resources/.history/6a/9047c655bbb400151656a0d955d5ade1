@@ -19,6 +19,7 @@ import java.util.Observable;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -62,6 +63,7 @@ public class DocumentWidget extends Observable {
 		drawnFun = new DefaultListModel<String>();
 		availableFunctionsList = new JList<String>(availableFun);
 		drawnFunctionsList = new JList<String>(drawnFun);
+		cbFunctions = new JComboBox<>();
 		fileChooser = new JFileChooser();
 		functionField = new JTextField("Votre fonction ici", 3);
 
@@ -319,6 +321,12 @@ public class DocumentWidget extends Observable {
 					createFunction(line);
 				}
 			}
+			//USELESS : Print the map
+			/*			for (String i : this.functionsList.keySet() ){
+				String key = i.toString();
+				String value = this.functionsList.get(key);
+				System.out.println("cle : " + key + " || valeur : " + value);
+			}*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

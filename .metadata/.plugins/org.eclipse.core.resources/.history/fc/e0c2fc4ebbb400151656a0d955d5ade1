@@ -19,11 +19,14 @@ import java.util.Observable;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -41,6 +44,7 @@ public class DocumentWidget extends Observable {
 	private JButton addButton; //to add a function manually
 	private JButton removeButton;
 	private JFileChooser fileChooser;
+	private JComboBox<String> cbFunctions;
 	private JList<String> availableFunctionsList;
 	private JList<String> drawnFunctionsList;
 	private DefaultListModel <String>availableFun;
@@ -62,6 +66,7 @@ public class DocumentWidget extends Observable {
 		drawnFun = new DefaultListModel<String>();
 		availableFunctionsList = new JList<String>(availableFun);
 		drawnFunctionsList = new JList<String>(drawnFun);
+		cbFunctions = new JComboBox<>();
 		fileChooser = new JFileChooser();
 		functionField = new JTextField("Votre fonction ici", 3);
 
@@ -319,6 +324,12 @@ public class DocumentWidget extends Observable {
 					createFunction(line);
 				}
 			}
+			//USELESS : Print the map
+			/*			for (String i : this.functionsList.keySet() ){
+				String key = i.toString();
+				String value = this.functionsList.get(key);
+				System.out.println("cle : " + key + " || valeur : " + value);
+			}*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
