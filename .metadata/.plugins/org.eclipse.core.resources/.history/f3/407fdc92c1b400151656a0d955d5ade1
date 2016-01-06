@@ -23,7 +23,7 @@ class CurveTracer extends JComponent {
 
 	static double croppingFactor = 0.9;
 
-	CurveTracer(FunctionVariations ...var) {
+	CurveTracer(FunctionVariations var) {
 		this.fvar = var;
 		setPreferredSize(new Dimension(400, 300));
 		setOpaque(true);
