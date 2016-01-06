@@ -40,7 +40,7 @@ public class ZoomWidget extends Observable {
 		xLabel = new JLabel("X");
 		
 		JButton applyButton = new JButton("Apply");
-		
+
 		applyButton.addMouseListener(new MouseAdapter() { 
 	       @Override
 			public void mouseClicked(MouseEvent e)
@@ -54,7 +54,7 @@ public class ZoomWidget extends Observable {
 					setXMax(newXmax);
 				    setChanged();
 					notifyObservers(this);
-					
+
 				} catch (NumberFormatException exception) {
 					System.out.println("Please enter a double value");
 				    exception.printStackTrace();

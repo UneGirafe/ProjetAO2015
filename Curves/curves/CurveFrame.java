@@ -80,7 +80,7 @@ public class CurveFrame extends JFrame  implements Observer {
 				cf.infos.repaint();
 			}
 		});
-
+		
 		fvar.tabulate(controls.currentPrecision());
 		setContentPane(mainPane);
 		pack();
@@ -90,14 +90,16 @@ public class CurveFrame extends JFrame  implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		
 		if(o instanceof DocumentWidget){
-		System.out.print("notification from DocWidget recieved with arg = " + arg);
-		tracer.update(getGraphics());
+		System.out.print("Mise à jour Curve Frame ");
+		DocumentWidget dw = (DocumentWidget) arg ;
+		dw.getDrawnFunctions();
 		repaint();}
 
 		if (o instanceof Variations){
 			infos.update();
 			repaint();
-		}		
+		}
 	}
 }

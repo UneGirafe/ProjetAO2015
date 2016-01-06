@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -93,20 +95,6 @@ public class DocumentWidget extends Observable {
 		});
 
 
-		/*		//Combo box
-		cbFunctions = new JComboBox<String>();
-		cbFunctions.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED){
-					String item = e.getItem().toString();
-					applyFunction(item);
-				}
-			}
-		});
-
-		widget.add(cbFunctions);*/
-
 		//Saver
 		saver = new JButton("Sauvegarder");
 		saver.addMouseListener(new MouseAdapter() {
@@ -186,10 +174,16 @@ public class DocumentWidget extends Observable {
 		widget.add(removeButton);
 		
 		widget.add(addButton);
-
 	}
 
-
+	
+	public List<Function> getDrawnFunctions(){
+		List<Function> fListContent = new ArrayList<>();
+		for (int i=0 ; i < drawnFun.getSize(); i ++){
+			fListContent.add(functionsList.get(drawnFun.getElementAt(i)));
+		}
+		return fListContent ;
+	}
 
 	public boolean functionFound(String txt){
 		boolean isFound = false;
@@ -229,12 +223,15 @@ public class DocumentWidget extends Observable {
 		drawnFunctionsList.updateUI();
 
 		// PAINT the CURVE ON THE GRAPH !
-		//TO BE IMPLEMENTED
+		
+		setChanged();
+		notifyObservers(this);
 		
 		//add to drawn list
 		drawnFun.addElement(func);
 		System.out.println(func + " dessinée");
 	}
+
 
 	public void drawnToAvailable(String func){
 		//remove the entry from the drawned list
@@ -242,7 +239,8 @@ public class DocumentWidget extends Observable {
 		drawnFunctionsList.updateUI();
 
 		// REMOVE the CURVE FROM THE GRAPH !
-		//TO BE IMPLEMENTED	
+		setChanged();
+		notifyObservers(this);
 		
 		//add to available list
 		availableFun.addElement(func);

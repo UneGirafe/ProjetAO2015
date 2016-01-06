@@ -45,6 +45,7 @@ class CurveControls extends JPanel {
 		zoom = new ZoomWidget();
 		zoom.addObserver((Observer) var);
 		document = new DocumentWidget();
+		document.addObserver(f);
 		
 		((Observable) var).addObserver(f); //permet a la fonction de notifier le tracer
 		document.addObserver(f);

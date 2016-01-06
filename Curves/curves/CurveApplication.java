@@ -6,7 +6,7 @@ public class CurveApplication {
 
 	private CurveApplication() {
 	}
-	
+
 	public static void start(FunctionVariations fv) {
 		final FunctionVariations fvar = fv;
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
