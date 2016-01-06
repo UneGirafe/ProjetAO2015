@@ -1,0 +1,304 @@
+package curves;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
+
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import function.Function;
+import function.Functions;
+import function.SyntaxErrorException;
+
+
+public class DocumentWidget extends Observable {
+	private JTextField functionField;
+	private JPanel widget;
+	private JButton loader;
+	private JButton saver;
+	private JButton drawButton;
+	private JButton addButton; //to add a function manually
+	private JButton removeButton;
+	private JFileChooser fileChooser;
+	private JList<String> availableFunctionsList;
+	private JList<String> drawnFunctionsList;
+	private DefaultListModel <String>availableFun;
+	private DefaultListModel<String> drawnFun; 
+	private Map<String,Function> functionsList;
+
+
+	public DocumentWidget(){
+		/*		widget.setLayout(new GridBagLayout());
+	    GridBagConstraints c = new GridBagConstraints();
+	    c.insets = new Insets(5,5,5,5);*/
+
+		widget = new JPanel();
+		availableFun = new DefaultListModel<String>();
+		drawnFun = new DefaultListModel<String>();
+		availableFunctionsList = new JList<String>(availableFun);
+		drawnFunctionsList = new JList<String>(drawnFun);
+		fileChooser = new JFileChooser();
+		functionField = new JTextField(3);
+
+		functionsList = new HashMap<String, Function>();
+
+		//Available function's list
+		availableFun.addElement("TEST !");
+		availableFunctionsList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+
+					if (availableFunctionsList.getSelectedIndex() == -1) {
+						//No selection, disable add button.
+						drawButton.setEnabled(false);
+					} else {
+						//Selection, enable the add button.
+						drawButton.setEnabled(true);
+					}
+				}
+
+			}
+		});
+
+		drawnFun.addElement("PRINTED");
+		drawnFunctionsList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+					if (drawnFunctionsList.getSelectedIndex() == -1) {
+						//No selection, disable remove button.
+						removeButton.setEnabled(false);
+					} else {
+						//Selection, enable the remove button.
+						removeButton.setEnabled(true);
+					}
+				}
+
+			}
+		});
+
+
+		/*		//Combo box
+		cbFunctions = new JComboBox<String>();
+		cbFunctions.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED){
+					String item = e.getItem().toString();
+					applyFunction(item);
+				}
+			}
+		});
+
+		widget.add(cbFunctions);*/
+
+		//Saver
+		saver = new JButton("Sauvegarder");
+		saver.addMouseListener(new MouseAdapter() {
+			@Override 
+			public void mouseClicked(MouseEvent e){
+				fileChooser.showSaveDialog(saver);
+				save(fileChooser.getSelectedFile());
+			}
+		});
+
+
+
+		//Loader
+		loader = new JButton("Importer a partir d'un fichier");
+		loader.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fileChooser.showOpenDialog(loader);
+				System.out.println("fichier choisi : " + fileChooser.getSelectedFile()); //trace
+				load(fileChooser.getSelectedFile());
+			}
+		});
+
+		//Button to add manually a function to the drawn list
+		drawButton = new JButton("Dessiner");
+		drawButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					availableToDrawn((String) availableFunctionsList.getSelectedValue());
+			}
+		});
+
+		//button to remove a drawn function
+		removeButton = new JButton("Retirer");
+		removeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				drawnToAvailable((String) drawnFunctionsList.getSelectedValue());
+			}
+		});
+
+		//button to manually add a function to the drawn list
+		addButton = new JButton("Ajouter manuellement");
+		addButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				createFunction(functionField.getText());
+			}
+		});
+		
+		
+		/*	    c.gridx = 0;
+	    c.gridy = 0;
+	    c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;*/
+
+		widget.add(functionField);
+
+		/*		c.gridx = 1;
+		c.gridheight = 10;
+		c.gridwidth = 20;*/
+
+		widget.add(availableFunctionsList);
+
+		widget.add(drawnFunctionsList);
+
+		/*		c.gridx = 2;
+	    c.gridwidth = 1;
+		c.gridheight = 1;*/
+		widget.add(saver);
+
+		widget.add(loader);
+
+		widget.add(drawButton);
+
+		widget.add(removeButton);
+		
+		widget.add(addButton);
+
+	}
+
+
+
+	public boolean functionFound(String txt){
+		boolean isFound = false;
+		for ( int i=0 ; i<functionsList.size() ; i++ ){
+			if ( functionsList.containsKey(txt) ){
+				isFound = true;
+			}
+		}
+		return isFound;
+	}
+
+	public void createFunction(String txt) {
+		try {
+			System.out.println("ligne à ajouter : " + txt);
+			Function fun;
+			fun = Functions.parse(txt); //convert String to Function
+			//If function does not exist --> add it
+			if ( ! functionFound(txt) ){
+				//add to the map
+				functionsList.put(txt , fun);
+				//add to the List Model
+				availableFun.addElement(txt);
+				//Repaint the list
+				availableFunctionsList.updateUI();
+			} else {
+				System.out.println("Cette fonction existe deja, ajout impossible.");
+			}
+		} catch (SyntaxErrorException | IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void availableToDrawn(String func){
+		//remove the entry from the available list
+		availableFun.removeElement(func);
+		drawnFunctionsList.updateUI();
+
+		// PAINT the CURVE ON THE GRAPH !
+		//TO BE IMPLEMENTED
+		
+		//add to drawn list
+		drawnFun.addElement(func);
+		System.out.println(func + " dessinée");
+	}
+
+	public void drawnToAvailable(String func){
+		//remove the entry from the drawned list
+		drawnFun.removeElement(func);
+		drawnFunctionsList.updateUI();
+
+		// REMOVE the CURVE FROM THE GRAPH !
+		//TO BE IMPLEMENTED	
+		
+		//add to available list
+		availableFun.addElement(func);
+	}
+
+	public void load(File f){
+		try (BufferedReader reader = new BufferedReader( new FileReader(f))) {//try-with-ressources
+			//libere la ressource des que la vaiable n'est plus utilisee
+			String line;
+			// while data is read
+			while ((line = reader.readLine()) != null ){ 
+				//add the function only if function does not already exist
+				if (functionsList.containsKey(line)){
+					System.out.println("ligne rejetee car deja importee" + line );
+				} else {
+					createFunction(line);
+				}
+			}
+			//USELESS : Print the map
+			/*			for (String i : this.functionsList.keySet() ){
+				String key = i.toString();
+				String value = this.functionsList.get(key);
+				System.out.println("cle : " + key + " || valeur : " + value);
+			}*/
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void save(File f){
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(f,true))){
+			f.createNewFile();
+			//for each function contained in map
+			for (String i : this.functionsList.keySet()){
+				String key = i.toString();
+				writer.write(key );
+				writer.newLine();
+			}
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}	
+	}
+
+
+	public JPanel getWidget() {
+		return widget;
+	}	
+}
