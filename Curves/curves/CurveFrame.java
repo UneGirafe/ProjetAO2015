@@ -98,7 +98,7 @@ public class CurveFrame extends JFrame  implements Observer {
 
 		if(o instanceof DocumentWidget){
 
-		System.out.print("Mise à jour Curve Frame ");
+		System.out.print("Mise a jour Curve Frame ");
 		FunctionVariations newFvar = new FunVariations((Function) arg, -10, 10);
 		fVars.add(newFvar);
 /*		DocumentWidget dw = (DocumentWidget) arg ;
