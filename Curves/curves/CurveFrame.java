@@ -92,7 +92,7 @@ public class CurveFrame extends JFrame  implements Observer {
 	public void update(Observable o, Object arg) {
 
 		if(o instanceof DocumentWidget){
-		System.out.print("Mise à jour Curve Frame ");
+		System.out.print("Mise a jour Curve Frame ");
 		DocumentWidget dw = (DocumentWidget) arg ;
 		
 		dw.getDrawnFunctions();

@@ -39,7 +39,7 @@ public class ZoomWidget extends Observable {
 
 		xLabel = new JLabel("X");
 		
-		JButton applyButton = new JButton("Apply");
+		JButton applyButton = new JButton("Zoom");
 
 		applyButton.addMouseListener(new MouseAdapter() { 
 	       @Override
