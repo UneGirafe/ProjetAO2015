@@ -24,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
@@ -48,28 +49,32 @@ public class DocumentWidget extends Observable {
 	private JList<String> availableFunctionsList;
 	private JList<String> drawnFunctionsList;
 	private DefaultListModel <String>availableFun;
-	private DefaultListModel<String> drawnFun; 
+	private DefaultListModel<String> drawnFun;
+	private JLabel availableFunLabel;
+	private JLabel drawnFunLabel;
 	private Map<String,Function> functionsList;
 
 
 	public DocumentWidget(){
-		/*		widget.setLayout(new GridBagLayout());
-	    GridBagConstraints c = new GridBagConstraints();
-	    c.insets = new Insets(5,5,5,5);*/
-
 		widget = new JPanel();
+		widget.setLayout(new GridBagLayout());
+	    GridBagConstraints c = new GridBagConstraints();
+	    c.insets = new Insets(5,5,5,5);
+
+		availableFunLabel = new JLabel("Fonctions disponibles");
+		drawnFunLabel = new JLabel("Fonctions dessinees");
 		availableFun = new DefaultListModel<String>();
 		drawnFun = new DefaultListModel<String>();
 		availableFunctionsList = new JList<String>(availableFun);
 		drawnFunctionsList = new JList<String>(drawnFun);
 		cbFunctions = new JComboBox<>();
 		fileChooser = new JFileChooser();
-		functionField = new JTextField(3);
+		functionField = new JTextField("Votre fonction ici", 3);
 
 		functionsList = new HashMap<String, Function>();
 
 		//Available function's list
-		availableFun.addElement("TEST !");
+		availableFun.addElement("");
 		availableFunctionsList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -87,7 +92,7 @@ public class DocumentWidget extends Observable {
 			}
 		});
 
-		drawnFun.addElement("PRINTED");
+		drawnFun.addElement("");
 		drawnFunctionsList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -132,7 +137,7 @@ public class DocumentWidget extends Observable {
 
 
 		//Loader
-		loader = new JButton("Importer a partir d'un fichier");
+		loader = new JButton("Importer");
 		loader.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -152,7 +157,7 @@ public class DocumentWidget extends Observable {
 		});
 
 		//button to remove a drawn function
-		removeButton = new JButton("Retirer");
+		removeButton = new JButton("Effacer");
 		removeButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -161,7 +166,7 @@ public class DocumentWidget extends Observable {
 		});
 
 		//button to manually add a function to the drawn list
-		addButton = new JButton("Ajouter manuellement");
+		addButton = new JButton("Ajouter fonction aux disponibles");
 		addButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -170,35 +175,70 @@ public class DocumentWidget extends Observable {
 		});
 		
 		
-		/*	    c.gridx = 0;
-	    c.gridy = 0;
+		// Set GridBagLayout
+		
+		// Premiere ligne
+		
+		c.gridx = 0;
+		c.gridy = 0;
 	    c.gridwidth = 1;
 		c.gridheight = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;*/
-
-		widget.add(functionField);
-
-		/*		c.gridx = 1;
-		c.gridheight = 10;
-		c.gridwidth = 20;*/
-
-		widget.add(availableFunctionsList);
-
-		widget.add(drawnFunctionsList);
-
-		/*		c.gridx = 2;
-	    c.gridwidth = 1;
-		c.gridheight = 1;*/
-		widget.add(saver);
-
-		widget.add(loader);
-
-		widget.add(drawButton);
-
-		widget.add(removeButton);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		
-		widget.add(addButton);
+		widget.add(availableFunLabel, c); // Ajout texte "Fonctions disponibles"
+		
+		c.gridx = 1;
+		
+		widget.add(drawnFunLabel, c); // Ajout texte "Fonctions dessinees"
+		
+		// Deuxieme ligne
+		
+		c.gridx = 0;
+	    c.gridy = 1;
 
+		widget.add(availableFunctionsList, c); // Ajout affichage fonctions disponibles
+
+		c.gridx = 1;
+		
+		widget.add(drawnFunctionsList, c); // Ajout affichage fonctions dessinées
+
+		// Troisieme ligne
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		
+		widget.add(drawButton, c); // Ajout bouton "Dessiner"
+
+		c.gridx = 1;
+
+		widget.add(removeButton, c); // Ajout bouton "Effacer"
+		
+		// Quatrieme ligne
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 3;
+
+		widget.add(functionField, c); // Ajout champs de saisie pour une nouvelle fonction
+
+		// Cinquieùe ligne
+		
+		c.gridy = 4;
+		c.gridwidth = 2;
+		
+		widget.add(addButton, c); // Ajout bouton d'ajout manuel
+		
+		// Sixieme ligne
+		
+		c.gridx = 0;
+		c.gridy = 5;
+		
+		widget.add(saver, c); // Ajout bouton de sauvegarde dans un fichier
+
+		c.gridx = 1;
+
+		widget.add(loader, c); // Ajout bouton d'importation de fichier
 	}
 
 
